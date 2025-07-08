@@ -1,5 +1,6 @@
-const express = require("express");
-const fetch = require("node-fetch");
+import express from "express";
+import fetch from "node-fetch";
+
 const app = express();
 app.use(express.json());
 
@@ -13,8 +14,8 @@ app.post("/api/quote", async (req, res) => {
     const data = await response.json();
     res.json(data);
   } catch (err) {
-    res.status(500).json({ error: "Proxy failed", details: err });
+    res.status(500).json({ error: "Proxy failed", details: err.message });
   }
 });
 
-module.exports = app;
+export default app;
