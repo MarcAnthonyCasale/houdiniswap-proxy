@@ -2,7 +2,7 @@ import fetch from 'node-fetch';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
+    return res.status(405).json({ error: 'Method Not Allowed' });
   }
 
   try {
@@ -10,14 +10,12 @@ export default async function handler(req, res) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(req.body),
-      timeout: 10000 // add a timeout to avoid silent failures
     });
 
     const data = await response.json();
-    console.log("HoudiniSwap API response:", data); // helpful for logs
-    res.status(200).json(data);
-  } catch (err) {
-    console.error("Error contacting HoudiniSwap:", err.message);
-    res.status(500).json({ error: "Proxy failed", details: err.message });
+    return res.status(200).json(data);
+  } catch (error) {
+    console.error("Fetch failed:", error);
+    return res.status(500).json({ error: "Internal Server Error", message: error.message });
   }
 }
